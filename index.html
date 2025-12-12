@@ -10,105 +10,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Điểm danh">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f2f5;
-            height: 100vh;
+        /* Cấu hình trang trắng và căn giữa */
+        body, html {
             margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #ffffff; /* Trang trắng */
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            text-align: center;
-            color: #333;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
+
+        /* Vùng chứa nút bấm */
+        .container {
+            text-align: center;
+        }
+
+        /* Định dạng link bao quanh ảnh */
+        .app-link {
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.1s; /* Hiệu ứng nhấn */
+            -webkit-tap-highlight-color: transparent; /* Bỏ màu xanh khi tap trên mobile */
+        }
+
+        /* Hiệu ứng khi nhấn vào icon */
+        .app-link:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        /* Định dạng ảnh icon */
         .app-icon {
             width: 120px;
             height: 120px;
-            background: white;
-            border-radius: 25px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        .app-icon img {
-            width: 100%;
-            height: 100%;
             object-fit: contain;
-        }
-        .instruction {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 0 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            max-width: 350px;
-        }
-        h2 { margin-top: 0; color: #0d6efd; font-size: 1.2rem; }
-        p { margin-bottom: 0; font-size: 0.95rem; line-height: 1.5; color: #666; }
-        .arrow { font-size: 1.5rem; margin-top: 10px; animation: bounce 2s infinite; color: #0d6efd; }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
+            margin-bottom: 15px;
+            /* Thêm bóng đổ nhẹ cho đẹp */
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
-        /* Ẩn nội dung khi đang load redirect */
-        #redirect-message { display: none; }
+        /* Định dạng dòng chữ nhỏ */
+        .title {
+            color: #555;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .sub-title {
+            color: #999;
+            font-size: 12px;
+            margin-top: 5px;
+        }
     </style>
-
-    <script>
-        // === LINK GOOGLE SHEET CỦA BẠN ===
-        // Hãy dán link /exec chính xác vào đây
-        const targetUrl = "https://script.google.com/macros/s/AKfycbz899KFVr2ayNp_pE8-r9thW0f6jLX-pbzfsJaK2xylFIaxDjpu7qhJbk1IIwH3FAK3Zw/exec";
-
-        function checkAndRedirect() {
-            // Kiểm tra xem trang có đang chạy dạng App (Standalone) không
-            // iOS: window.navigator.standalone
-            // Android: display-mode: standalone
-            const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-
-            if (isStandalone) {
-                // ĐANG CHẠY DẠNG APP -> CHUYỂN HƯỚNG NGAY
-                document.getElementById('setup-screen').style.display = 'none';
-                document.getElementById('redirect-message').style.display = 'block';
-                window.location.replace(targetUrl);
-            } else {
-                // ĐANG CHẠY TRÊN TRÌNH DUYỆT -> HIỆN HƯỚNG DẪN CÀI ĐẶT
-                // Không làm gì cả, để yên cho HTML hiển thị
-            }
-        }
-        
-        // Chạy kiểm tra khi tải trang
-        window.onload = checkAndRedirect;
-    </script>
 </head>
 <body>
 
-    <div id="setup-screen">
-        <div class="app-icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/1570/1570887.png" alt="Icon">
-        </div>
-        
-        <div class="instruction">
-            <h2>Cài đặt Ứng dụng</h2>
-            <p>Để sử dụng, vui lòng thêm trang này vào màn hình chính:</p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-            <p>1. Bấm nút <strong>Chia sẻ</strong> <i class="fas fa-share-square"></i></p>
-            <p>2. Chọn <strong>"Thêm vào MH chính"</strong></p>
-            <div class="arrow">↓</div>
-        </div>
-    </div>
-
-    <div id="redirect-message">
-        <div class="app-icon" style="margin-top: 40vh;">
-            <img src="https://cdn-icons-png.flaticon.com/512/1570/1570887.png" alt="Icon">
-        </div>
-        <p>Đang vào hệ thống điểm danh...</p>
+    <div class="container">
+        <a href="https://script.google.com/macros/s/AKfycbzJP2N3rZAxY5BKcYlS3lCwXb2GRasEgZn-CYvMwFOB0SSkc-n4Z4HOUx2o8vM1xJ4D/exec" class="app-link">
+            
+            <img src="https://cdn-icons-png.flaticon.com/512/1570/1570887.png" alt="Logo" class="app-icon">
+            
+            <p class="title">Đi đến trang điểm danh <i class="fas fa-arrow-right"></i></p>
+            <p class="sub-title">(Nhấn vào biểu tượng để mở)</p>
+        </a>
     </div>
 
 </body>
