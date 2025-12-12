@@ -12,73 +12,73 @@
     <meta name="apple-mobile-web-app-title" content="Điểm danh">
     
     <style>
-        /* Cấu hình trang trắng và căn giữa */
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            background-color: #ffffff; /* Trang trắng */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            background-color: #ffffff;
+            display: flex; justify-content: center; align-items: center;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
-
-        /* Vùng chứa nút bấm */
-        .container {
-            text-align: center;
-        }
-
-        /* Định dạng link bao quanh ảnh */
+        .container { text-align: center; }
         .app-link {
-            text-decoration: none;
-            display: inline-block;
-            transition: transform 0.1s; /* Hiệu ứng nhấn */
-            -webkit-tap-highlight-color: transparent; /* Bỏ màu xanh khi tap trên mobile */
+            text-decoration: none; display: inline-block;
+            transition: transform 0.1s; -webkit-tap-highlight-color: transparent;
         }
-
-        /* Hiệu ứng khi nhấn vào icon */
-        .app-link:active {
-            transform: scale(0.95);
-            opacity: 0.8;
-        }
-
-        /* Định dạng ảnh icon */
+        .app-link:active { transform: scale(0.95); opacity: 0.8; }
         .app-icon {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            margin-bottom: 15px;
-            /* Thêm bóng đổ nhẹ cho đẹp */
+            width: 120px; height: 120px; object-fit: contain; margin-bottom: 15px;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
-
-        /* Định dạng dòng chữ nhỏ */
-        .title {
-            color: #555;
-            font-size: 16px;
-            font-weight: 500;
-            margin: 0;
-        }
+        .title { color: #555; font-size: 16px; font-weight: 500; margin: 0; }
+        .sub-title { color: #999; font-size: 12px; margin-top: 5px; }
         
-        .sub-title {
-            color: #999;
-            font-size: 12px;
-            margin-top: 5px;
+        /* Nút phụ cho trường hợp không có Chrome */
+        .fallback-btn {
+            margin-top: 20px; font-size: 13px; color: #0d6efd; 
+            text-decoration: underline; cursor: pointer; border: none; background: none;
         }
     </style>
+
+    <script>
+        // === CẤU HÌNH LINK ===
+        // 1. Link gốc (HTTPS) - Dùng cho Android/PC
+        // BẠN DÁN LINK CỦA BẠN VÀO ĐÂY (Giữ nguyên https://)
+        var originalLink = "https://script.google.com/macros/s/AKfycbzJP2N3rZAxY5BKcYlS3lCwXb2GRasEgZn-CYvMwFOB0SSkc-n4Z4HOUx2o8vM1xJ4D/exec";
+
+        // 2. Tự động tạo Link Chrome (googlechrome://)
+        // Nó thay thế "https" thành "googlechrome"
+        var chromeLink = originalLink.replace("https://", "googlechrome://");
+
+        function openApp() {
+            var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            
+            if (isIOS) {
+                // Nếu là iPhone -> Thử mở bằng App Chrome
+                window.location.href = chromeLink;
+                
+                // Mẹo: Nếu máy họ không cài Chrome, sau 2 giây sẽ mở bằng Safari thường
+                setTimeout(function() {
+                    window.location.href = originalLink;
+                }, 2500);
+            } else {
+                // Nếu là Android hoặc PC -> Mở bình thường
+                window.location.href = originalLink;
+            }
+        }
+    </script>
 </head>
 <body>
 
     <div class="container">
-        <a href="https://script.google.com/macros/s/AKfycbz899KFVr2ayNp_pE8-r9thW0f6jLX-pbzfsJaK2xylFIaxDjpu7qhJbk1IIwH3FAK3Zw/exec" class="app-link">
-            
+        <a href="javascript:void(0)" onclick="openApp()" class="app-link">
             <img src="https://cdn-icons-png.flaticon.com/512/1570/1570887.png" alt="Logo" class="app-icon">
-            
-            <p class="title">Đi đến trang điểm danh <i class="fas fa-arrow-right"></i></p>
-            <p class="sub-title">(Nhấn vào biểu tượng để mở)</p>
+            <p class="title">Mở App Điểm Danh <i class="fas fa-external-link-alt"></i></p>
+            <p class="sub-title">(Tự động mở Chrome)</p>
         </a>
+        
+        <br>
+        <button class="fallback-btn" onclick="window.location.href = originalLink">
+            Không mở được? Nhấn vào đây.
+        </button>
     </div>
 
 </body>
